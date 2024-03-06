@@ -1,0 +1,33 @@
+$2y$10$QHOygX0mw4ApPok/UNuNee5mXMOdAUPbL9IPzDTsL42y4sQK//BJ.
+
+
+public function cetakpeminjam()
+  {
+    $data = $this->model('KBRelasi')->get();
+    $html   = "<center>";
+    $html   .= "<h1>Sher_dyan_ti</h1>";
+    $html   .= "<h2>PERPUSTAKAAN DIGITAL</h2>";
+    $html   .= "<h3>DAFTAR PEMINJAM</h3>";
+    $html   .= "<hr>";
+    $html   .= "<table align='center' border='1' cellpadding='10' cellspacing='0'>";
+    $html   .= "<tr><th>No</th><th>Nama Peminjam</th><th>Alamat</th><th>Judul Buku</th><th>Tanggal Pengembalian</th><th>Status Peminjaman</th></tr>";
+    $no = 1;
+    foreach ($data as $peminjam) {
+      $html .= "<tr>";
+      $html .= "<td>" . $no . "</td>";
+      $html .= "<td>" . $peminjam['NamaLengkap'] . "</td>";
+      $html .= "<td>" . $peminjam['Alamat'] . "</td>";
+      $html .= "<td>" . $peminjam['Judul'] . "</td>";
+      $html .= "<td>" . $peminjam['TanggalPengembalian'] . "</td>";
+      $html .= "<td>" . $peminjam['StatusPeminjaman'] . "</td>";
+      $html .= "</tr>";
+      $no++;
+    }
+    $html   .= "</table>";
+    $html   .= "</center>";
+    $dompdf = new Dompdf();
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('4A', 'potrait');
+    $dompdf->render();
+    $dompdf->stream('Data Buku', ['Attachment' => 0]);
+  }
